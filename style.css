@@ -1,0 +1,193 @@
+/* This stylesheet is used for styling things.
+   It defines what things look like, but not where they are. */
+
+/* Color definitions */
+
+:root {
+    /* --accent-color: #74cacf; */
+    --accent-color: #18134a;
+    --link-color: #483f89;
+    --link-color-dark: #3a396e;
+
+    --text-background: #f6f6f6;
+    --text-soft: #787c92;
+
+    --text-on-dark: #6f66a0;
+    --text-hover-on-dark: #5a5286;
+    --text-highlight-on-dark: #659153;
+
+    --text-highlight: #6ba953;
+
+    --background-dark: #c4c9d2;
+}
+
+/* General styling */
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    background: url(assets/noise.png) repeat, var(--accent-color);
+}
+
+div#main-content {
+    background-color: var(--text-background);
+    border-radius: 3px;
+    box-shadow: 0px 0px 10px 0px var(--link-color);
+}
+
+div#sidepanel {
+    border-right: 1px solid var(--text-soft);
+    background-color: var(--text-background);
+}
+
+@media screen and (max-width: 1200px) {
+    div#main-content {
+        border-radius: 0px;
+        box-shadow: none;
+    }
+
+    body {
+        background-color: var(--text-background);
+    }
+}
+
+/* Content */
+
+h1 {
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: 1em;
+    color: var(--accent-color)
+}
+
+
+/* Links */
+a:hover {
+    color: var(--link-color-dark);
+}
+
+a {
+    color: var(--link-color);
+    cursor: pointer;
+}
+
+a.active {
+    color: var(--accent-color-dark);
+}
+
+/* Buttons */
+button {
+    vertical-align: middle;
+    color: var(--accent-color);
+}
+
+/* Lists */
+
+ul {
+    padding-left: 0;
+}
+
+li {
+    list-style-type: none;
+    margin-bottom: 0.2em;
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--accent-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--link-color);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--link-color-dark);
+}
+
+@media screen and (max-width: 1200px) {
+
+    ::-webkit-scrollbar-track {
+    background: var(--text-background);
+    }
+
+    ::-webkit-scrollbar-thumb {
+    background: var(--text-soft);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+    background: var(--link-color);
+    }
+
+}
+
+
+.selected a {
+    color: var(--text-highlight)
+}
+
+.selected a:hover {
+    color: var(--text-highlight-on-dark)
+}
+
+/* System selectioni */
+
+div#system-select {
+    background-color: black;
+    border-radius: 5px;
+}
+
+div#system-select a {
+    color: var(--text-on-dark);
+}
+
+div#system-select a:hover {
+    color: var(--text-hover-on-dark);
+}
+
+div#system-select .selected a {
+    color: var(--text-highlight-on-dark);
+}
+
+div#system-select .selected a:hover {
+    color: var(--text-highlight);
+}
+
+div#system-icon.selected a {
+    color: var(--text-highlight-on-dark);
+}
+
+div#system-icon.selected p {
+    color: var(--text-highlight-on-dark);
+}
+
+/* Ship options */
+
+div#ship-options a div {
+    background-color: var(--accent-color);
+    color: var(--text-soft);
+}
+
+div#ship-options .selected div {
+    background-color: var(--background-dark);
+}
+
+div#ship-option-ships div {
+    padding: 5px;
+    border-radius: 3px 0 0 3px;
+}
+
+div#ship-option-tabs div {
+    padding: 5px;
+    border-radius: 3px 3px 0 0;
+}
+
+div#ship-options-tab {
+    background-color: var(--background-dark);
+    padding: 10px;
+}

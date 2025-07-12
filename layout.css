@@ -1,0 +1,172 @@
+/* This stylesheet is used for arranging things on the page.
+   It defines where things are, but not what they look like. */
+
+html {
+   height: 100%;
+}
+
+body {
+   height: calc(100% - 6em);
+   padding: 0;
+   margin: 0;
+}
+
+div#main-content {
+   max-width: 1200px;
+   margin: auto;
+   margin-top: 3em;
+   padding: 1em;
+   display: flex;
+   flex-wrap: wrap;
+   gap: 20px;
+}
+
+div#system-select {
+   width: 100%;
+   height: 70vh;
+   overflow-x: scroll;
+   padding: 20px;
+}
+
+div#system-select-subcontainer {
+   position: relative;
+}
+
+div.system-icon {
+   position: absolute;
+}
+
+div.system-icon a {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+div.system-icon p {
+   margin-top: 0;
+}
+
+div.system-icon img {
+   filter: brightness(70%) grayscale();
+}
+
+div.system-icon.selected img {
+   filter: grayscale();
+}
+
+div.system-icon img.alignment-red {
+   filter: brightness(70%);
+}
+
+div.system-icon.selected img.alignment-red {
+   filter: brightness(100%);
+}
+
+div.system-icon img.alignment-blue {
+   filter: brightness(70%) hue-rotate(180deg);
+}
+
+div.system-icon.selected img.alignment-blue {
+   filter: brightness(130%) hue-rotate(180deg);
+}
+
+div.system-icon img.alignment-green {
+   filter: brightness(70%) hue-rotate(120deg);
+}
+
+div.system-icon.selected img.alignment-green {
+   filter: brightness(130%) hue-rotate(120deg);
+}
+
+div.system-icon img.alignment-purple {
+   filter: brightness(70%) hue-rotate(260deg);
+}
+
+div.system-icon.selected img.alignment-purple {
+   filter: brightness(130%) hue-rotate(260deg);
+}
+
+
+div#ship-options {
+   display: flex;
+   flex-direction: column;
+   flex-wrap: wrap;
+   flex-grow: 1;
+}
+
+div#ship-options-lower {
+   display: flex;
+   flex-wrap: wrap;
+   flex-grow: 1;
+}
+
+div#ship-option-tabs {
+   display: flex;
+   justify-content: space-around;
+   margin-left: 80px;
+}
+
+div#ship-option-ships {
+   width: 80px;
+   display: flex;
+   gap: 5px;
+   flex-direction: column;
+   justify-content: space-around;
+}
+
+div#ship-options-tab {
+   display: flex;
+   flex-grow: 1;
+   flex-direction: column;
+   align-items: center;
+}
+
+div#ship-options-tab div.col {
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   justify-content: space-around;
+}
+
+div#ship-options-tab div.table {
+   display: flex;
+   flex-grow: 1;
+}
+
+div#ship-options-tab input {
+   width: 50px;
+}
+
+@media screen and (min-width: 1200px) {
+   .hide-desktop {
+      display: none;
+   }
+}
+
+@media screen and (max-width: 1200px) {
+   .hide-mobile {
+      display: none!important;
+   }
+   div#main-content {
+      margin-top: 0!important;
+      height: calc(100vh - 2em);
+      overflow-x: scroll;
+   }
+
+   /* sidepanel */
+   div#sidepanel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: calc(100% - 2em);
+      height: calc(100vh - 2em);
+      max-width: none;
+      overflow-x: scroll;
+      padding: 1em;
+   }
+
+   div#sidepanel.hidden {
+      display: none;
+   }
+}

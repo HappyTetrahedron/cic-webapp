@@ -1,0 +1,99 @@
+<!doctype html>
+<head>
+    <title v-scope>
+        CIC Systems
+    </title>
+    <meta name="author" content="HappyTetrahedron">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <script type="module" src="/main.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Source Sans Pro' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Symbols+2&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/layout.css" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.png">
+</head>
+<body>
+    <div v-scope id="main-content">
+        <div id="system-select">
+            <div id="system-select-subcontainer">
+                <div class="system-icon" v-for="system in systemsAvailable" :style="{ top: (system.y - minY) + 'px', left: (system.x - minX) + 'px'}" :class="{ selected: systemsSelected.includes(system.name) }">
+                    <a @click="onSystemClicked(system.name)">
+                        <img src="assets/system.png" :class="{ 'alignment-blue': system.alignment == 'USFP', 'alignment-red': system.alignment == 'Hegemony', 'alignment-green': system.alignment == 'Neutral', 'alignment-purple': system.alignment == 'Badlands'}">
+                        <p>{{ system.name }}</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="script-select">
+            <h2>Select Scripts:</h2>
+            <ul>
+                <li v-for="script in scriptsAvailable" :class="{ selected: scriptsSelected.includes(script.name)}">
+                    <span v-if="scriptsSelected.includes(script.name)">✅</span>
+                    <span v-else>⭐</span>
+                    <a @click="onScriptClicked(script.name)">
+                        {{ script.name }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="ship-options">
+            <h2>Ship options:</h2>
+            <div id="ship-option-tabs">
+                <a v-for="(params, option) in shipOptionsAvailable" @click="selectTab(option)" :class="{ selected: option == currentTab }">
+                    <div>
+                        <span>
+                            {{ params.friendly_name }}
+                        </span>
+                    </div>
+                </a>
+            </div>
+            <div id="ship-options-lower">
+                <div id="ship-option-ships">
+                        <a v-for="ship in ships" @click="selectShip(ship)" :class="{ selected: ship == currentShip }">
+                            <div>
+                                <span>{{ ship }}</span>
+                            </div>
+                        </a>
+                </div>
+                <div id="ship-options-tab">
+                    <div class="col" v-if="currentOptionsType == 'select'" >
+                        <div :class="{ selected: currentOptionsSelected == 'None' }">
+                            <span v-if="currentOptionsSelected == 'None'">✅</span>
+                            <span v-else>🙅</span>
+                            <a @click="onSelectOptClicked('None')">None</a>
+                        </div>
+                        <div v-for="opt in currentOptionsAvailable" :class="{ selected: currentOptionsSelected == opt.name }">
+                            <span v-if="currentOptionsSelected == opt.name">✅</span>
+                            <span v-else>🙅</span>
+                            <a @click="onSelectOptClicked(opt.name)">{{ opt.friendly_name }}</a>
+                        </div>
+                    </div>
+                    <div class="table" v-if="currentOptionsType == 'property-dict'">
+                        <table>
+                            <tr v-for="opt in currentOptionsAvailable">
+                                <td>
+                                    <label>{{ opt.friendly_name }}</label>
+                                </td>
+                                <td>
+                                    <input type="text" @change="onPropertyChanged(opt.name)"
+                                        v-model="shipOptionsChosen[currentTab][currentShip][opt.name]" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="submit">
+            <button id="submit-button" @click="onGenerateButtonClicked">Generate Mission Script</button>
+            <button id="reset-button" @click="onResetAllButtonClicked">Reset all config</button>
+            <button id="reset-sys-button" @click="onResetSystemsButtonClicked">Reset system and script selection</button>
+            <button id="reset-ship-button" @click="onResetShipConfigButtonClicked">Reset current ship option page</button>
+            <button id="reset-allopts-button" @click="onResetAllShipConfigButtonClicked">Reset all ship options</button>
+        </div>
+    </div>
+</body>
