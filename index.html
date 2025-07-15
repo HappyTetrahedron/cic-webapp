@@ -37,6 +37,7 @@
                     <a @click="onScriptClicked(script.name)">
                         {{ script.name }}
                     </a>
+                    <p class="comment" v-if="script.comment">{{ script.comment }}</p>
                 </li>
             </ul>
         </div>

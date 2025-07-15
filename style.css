@@ -135,7 +135,7 @@ li {
     color: var(--text-highlight-on-dark)
 }
 
-/* System selectioni */
+/* System selection */
 
 div#system-select {
     background-color: black;
@@ -164,6 +164,15 @@ div#system-icon.selected a {
 
 div#system-icon.selected p {
     color: var(--text-highlight-on-dark);
+}
+
+p.comment {
+  color: var(--text-soft);
+  size: 0.5em;
+  font-size: 0.5em;
+  max-width: 200px;
+  margin-top: 0;
+  margin-left: 3em;
 }
 
 /* Ship options */
