@@ -30,6 +30,8 @@ export const store = reactive({
     currentTabIdx: 0,
     currentShip: "ship1",
 
+    version: "unknown",
+
     onSystemClicked(systemName) {
         if (this.systemsSelected.includes(systemName)) {
             const idx = this.systemsSelected.indexOf(systemName);
@@ -52,23 +54,23 @@ export const store = reactive({
         this.store("scripts", this.scriptsSelected);
     },
 
-    onSelectOptClicked(optionName) {
-        this.shipOptionsChosen[this.currentTab][this.currentShip] = optionName;
+    onSelectOptClicked(option, optionName) {
+        this.shipOptionsChosen[option][this.currentShip] = optionName;
         this.store("opts", this.shipOptionsChosen);
     },
 
-    onMultiSelectOptClicked(optionName) {
-        const index = this.shipOptionsChosen[this.currentTab][this.currentShip].indexOf(optionName)
+    onMultiSelectOptClicked(option, optionName) {
+        const index = this.shipOptionsChosen[option][this.currentShip].indexOf(optionName)
         if (index > -1) {
-            this.shipOptionsChosen[this.currentTab][this.currentShip].splice(index, 1);
+            this.shipOptionsChosen[option][this.currentShip].splice(index, 1);
         }
         else {
-            this.shipOptionsChosen[this.currentTab][this.currentShip].push(optionName);
+            this.shipOptionsChosen[option][this.currentShip].push(optionName);
         }
         this.store("opts", this.shipOptionsChosen);
     },
 
-    onPropertyChanged(optionName) {
+    onPropertyChanged() {
         this.store("opts", this.shipOptionsChosen);
     },
 
@@ -79,7 +81,11 @@ export const store = reactive({
     },
 
     onResetShipConfigButtonClicked() {
-        delete this.shipOptionsChosen[this.currentTab][this.currentShip];
+        console.log(this.shipOptionsAvailable)
+        for (const option of Object.keys(this.shipOptionsAvailable)) {
+            console.log(option);
+            delete this.shipOptionsChosen[option][this.currentShip];
+        }
         this.setAvailableShipConfigOptions(this.shipOptionsAvailable);
         this.storeAll();
     },
@@ -115,6 +121,19 @@ export const store = reactive({
     get currentTab() {
         return Object.keys(this.shipOptionsAvailable)[this.currentTabIdx];
     },
+
+    optionsAvailable(optionName) {
+        return this.shipOptionsAvailable[optionName]?.options;
+    },
+
+    optionsType(optionName) {
+        return this.shipOptionsAvailable[optionName]?.type;
+    },
+
+    optionsSelected(optionName) {
+        return this.shipOptionsChosen[optionName]?.[this.currentShip];
+    },
+
 
     get currentOptionsAvailable() {
         return this.shipOptionsAvailable[this.currentTab]?.options;

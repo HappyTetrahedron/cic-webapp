@@ -171,6 +171,16 @@ div#ship-options-tab input {
    }
 }
 
+@media screen and (max-width: 900px) {
+   div#ship-options-tab {
+      display: none;
+   }
+
+   div#ship-options-tab.selected {
+      display: flex;
+   }
+}
+
 button#floating-submit-button {
     position: fixed;
     top: 50px;
@@ -178,3 +188,4 @@ button#floating-submit-button {
     font-size: xx-large;
     z-index: 10;
 }
+

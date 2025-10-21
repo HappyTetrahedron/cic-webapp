@@ -61,35 +61,35 @@
                             </div>
                         </a>
                 </div>
-                <div id="ship-options-tab">
-                    <div class="col" v-if="currentOptionsType == 'select'" >
-                        <div :class="{ selected: currentOptionsSelected == 'None' }">
-                            <span v-if="currentOptionsSelected == 'None'">✅</span>
+                <div id="ship-options-tab" v-for="(params, option) in shipOptionsAvailable" :class="{ selected: currentTab == option }">
+                    <div class="col" v-if="optionsType(option) == 'select'">
+                        <div :class="{ selected: optionsSelected(option) == 'None' }">
+                            <span v-if="optionsSelected(option) == 'None'">✅</span>
                             <span v-else>🙅</span>
-                            <a @click="onSelectOptClicked('None')">None</a>
+                            <a @click="onSelectOptClicked(option, 'None')">None</a>
                         </div>
-                        <div v-for="opt in currentOptionsAvailable" :class="{ selected: currentOptionsSelected == opt.name }">
-                            <span v-if="currentOptionsSelected == opt.name">✅</span>
+                        <div v-for="opt in optionsAvailable(option)" :class="{ selected: optionsSelected(option) == opt.name }">
+                            <span v-if="optionsSelected(option) == opt.name">✅</span>
                             <span v-else>🙅</span>
-                            <a @click="onSelectOptClicked(opt.name)">{{ opt.friendly_name }}</a>
-                        </div>
-                    </div>
-                    <div class="col" v-if="currentOptionsType == 'multi-select'" >
-                        <div v-for="opt in currentOptionsAvailable" :class="{ selected: currentOptionsSelected.includes(opt.name) }">
-                            <span v-if="currentOptionsSelected.includes(opt.name)">✅</span>
-                            <span v-else>🙅</span>
-                            <a @click="onMultiSelectOptClicked(opt.name)">{{ opt.friendly_name }}</a>
+                            <a @click="onSelectOptClicked(option, opt.name)">{{ opt.friendly_name }}</a>
                         </div>
                     </div>
-                    <div class="table" v-if="currentOptionsType == 'property-dict'">
+                    <div class="col" v-if="optionsType(option) == 'multi-select'" >
+                        <div v-for="opt in optionsAvailable(option)" :class="{ selected: optionsSelected(option).includes(opt.name) }">
+                            <span v-if="optionsSelected(option).includes(opt.name)">✅</span>
+                            <span v-else>🙅</span>
+                            <a @click="onMultiSelectOptClicked(option, opt.name)">{{ opt.friendly_name }}</a>
+                        </div>
+                    </div>
+                    <div class="table" v-if="optionsType(option) == 'property-dict'">
                         <table>
-                            <tr v-for="opt in currentOptionsAvailable">
+                            <tr v-for="opt in optionsAvailable(option)">
                                 <td>
                                     <label>{{ opt.friendly_name }}</label>
                                 </td>
                                 <td>
-                                    <input type="text" @change="onPropertyChanged(opt.name)"
-                                        v-model="shipOptionsChosen[currentTab][currentShip][opt.name]" />
+                                    <input type="text" @change="onPropertyChanged()"
+                                        v-model="shipOptionsChosen[option][currentShip][opt.name]" />
                                 </td>
                             </tr>
                         </table>
@@ -102,7 +102,7 @@
             <button id="submit-button" @click="onGenerateButtonClicked">Generate Mission Script</button>
             <button id="reset-button" @click="onResetAllButtonClicked">Reset all config</button>
             <button id="reset-sys-button" @click="onResetSystemsButtonClicked">Reset system and script selection</button>
-            <button id="reset-ship-button" @click="onResetShipConfigButtonClicked">Reset current ship option page</button>
+            <button id="reset-ship-button" @click="onResetShipConfigButtonClicked">Reset current ship's options</button>
             <button id="reset-allopts-button" @click="onResetAllShipConfigButtonClicked">Reset all ship options</button>
         </div>
     </div>
