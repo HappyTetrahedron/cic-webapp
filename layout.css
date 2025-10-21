@@ -170,3 +170,11 @@ div#ship-options-tab input {
       display: none;
    }
 }
+
+button#floating-submit-button {
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    font-size: xx-large;
+    z-index: 10;
+}

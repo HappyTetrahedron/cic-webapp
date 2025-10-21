@@ -1,5 +1,10 @@
 import * as Config from "../configuration.js"
 
+export async function fetchVersion() {
+    let res = await fetch(Config.API_URI + "version");
+    return await res.text();
+}
+
 export async function fetchShipConfigOptions() {
     let list = await fetchJson(Config.API_URI + "ship_configs");
     return list;
@@ -11,7 +16,7 @@ export async function fetchAvailableSystems() {
 }
 
 export async function fetchAvailableScripts() {
-    let list = await fetchJson(Config.API_URI + "scripts");
+    let list = await fetchJson(Config.API_URI + "extensions");
     return list;
 }
 

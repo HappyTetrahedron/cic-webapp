@@ -13,7 +13,7 @@
     --text-soft: #787c92;
 
     --text-on-dark: #6f66a0;
-    --text-hover-on-dark: #5a5286;
+    --text-hover-on-dark: #a69ed0;
     --text-highlight-on-dark: #659153;
 
     --text-highlight: #6ba953;
@@ -199,4 +199,23 @@ div#ship-option-tabs div {
 div#ship-options-tab {
     background-color: var(--background-dark);
     padding: 10px;
+}
+
+
+button {
+    background-color: var(--accent-color);
+    color: var(--text-on-dark);
+    padding: 7px;
+    border-radius: 5px;
+    border: none;
+}
+
+button:hover {
+    background-color: var(--link-color);
+    color: var(--text-hover-on-dark);
+}
+
+
+button#floating-submit-button {
+    background-color: var(--link-color);
 }

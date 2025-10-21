@@ -1,4 +1,5 @@
 import * as Api from "./api.js"
+import * as Config from "../configuration.js"
 import {reactive} from "https://unpkg.com/petite-vue@0.3.0/dist/petite-vue.es.js"
 
 export const store = reactive({
@@ -53,6 +54,17 @@ export const store = reactive({
 
     onSelectOptClicked(optionName) {
         this.shipOptionsChosen[this.currentTab][this.currentShip] = optionName;
+        this.store("opts", this.shipOptionsChosen);
+    },
+
+    onMultiSelectOptClicked(optionName) {
+        const index = this.shipOptionsChosen[this.currentTab][this.currentShip].indexOf(optionName)
+        if (index > -1) {
+            this.shipOptionsChosen[this.currentTab][this.currentShip].splice(index, 1);
+        }
+        else {
+            this.shipOptionsChosen[this.currentTab][this.currentShip].push(optionName);
+        }
         this.store("opts", this.shipOptionsChosen);
     },
 
@@ -124,6 +136,10 @@ export const store = reactive({
         return Math.min(...this.systemsAvailable.map(item => parseInt(item.y)))
     },
 
+    getStelCartLinkFor(systemName) {
+        return `${Config.STEL_CART_URI}?sector=${systemName}`
+    },
+
     setAvailableScripts(scripts) {
         this.scriptsAvailable = scripts;
     },
@@ -148,6 +164,10 @@ export const store = reactive({
         this.store("scripts", this.scriptsSelected);
     },
 
+    setVersion(version) {
+        this.version = version;
+    },
+
     setAvailableShipConfigOptions(scripts) {
         this.shipOptionsAvailable = scripts;
 
@@ -160,6 +180,11 @@ export const store = reactive({
                 if ((v.type) == "select") {
                     if (!this.shipOptionsChosen[k][ship]) {
                         this.shipOptionsChosen[k][ship] = "None";
+                    }
+                }
+                if ((v.type) == "multi-select") {
+                    if (!this.shipOptionsChosen[k][ship]) {
+                        this.shipOptionsChosen[k][ship] = [];
                     }
                 }
                 if ((v.type) == "property-dict") {
@@ -186,6 +211,11 @@ export const store = reactive({
             for (const [ship, shipv] of Object.entries(optv)) {
                 if (this.shipOptionsAvailable[opt].type == "select") {
                     if (shipv != "None") {
+                        this.ensureKeyAndSet(dict, [opt, ship], shipv);
+                    }
+                }
+                if (this.shipOptionsAvailable[opt].type == "multi-select") {
+                    if (shipv != []) {
                         this.ensureKeyAndSet(dict, [opt, ship], shipv);
                     }
                 }
@@ -236,6 +266,8 @@ export const store = reactive({
         const systems = this.load("systems");
         if (!!systems) this.setSelectedSystems(systems);
         await Promise.all([
+            Api.fetchVersion()
+            .then(l => this.setVersion(l)),
             Api.fetchAvailableSystems()
             .then(l => this.setAvailableSystems(l)),
             Api.fetchAvailableScripts()

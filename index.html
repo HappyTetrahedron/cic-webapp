@@ -1,7 +1,7 @@
 <!doctype html>
 <head>
     <title v-scope>
-        CIC Systems
+        CIC Systems - Version {{ version }}
     </title>
     <meta name="author" content="HappyTetrahedron">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,18 +18,19 @@
 </head>
 <body>
     <div v-scope id="main-content">
+        <button id="floating-submit-button" @click="onGenerateButtonClicked">📄⤓</button>
         <div id="system-select">
             <div id="system-select-subcontainer">
                 <div class="system-icon" v-for="system in systemsAvailable" :style="{ top: (system.y - minY) + 'px', left: (system.x - minX) + 'px'}" :class="{ selected: systemsSelected.includes(system.name) }">
                     <a @click="onSystemClicked(system.name)">
                         <img src="assets/system.png" :class="{ 'alignment-blue': system.alignment == 'USFP', 'alignment-red': system.alignment == 'Hegemony', 'alignment-green': system.alignment == 'Neutral', 'alignment-purple': system.alignment == 'Badlands'}">
-                        <p>{{ system.name }}</p>
                     </a>
+                    <a :href="getStelCartLinkFor(system.name)" target="_blank"><p>{{ system.name }}</p></a>
                 </div>
             </div>
         </div>
         <div id="script-select">
-            <h2>Select Scripts:</h2>
+            <h2>Select Extensions:</h2>
             <ul>
                 <li v-for="script in scriptsAvailable" :class="{ selected: scriptsSelected.includes(script.name)}">
                     <span v-if="scriptsSelected.includes(script.name)">✅</span>
@@ -73,6 +74,13 @@
                             <a @click="onSelectOptClicked(opt.name)">{{ opt.friendly_name }}</a>
                         </div>
                     </div>
+                    <div class="col" v-if="currentOptionsType == 'multi-select'" >
+                        <div v-for="opt in currentOptionsAvailable" :class="{ selected: currentOptionsSelected.includes(opt.name) }">
+                            <span v-if="currentOptionsSelected.includes(opt.name)">✅</span>
+                            <span v-else>🙅</span>
+                            <a @click="onMultiSelectOptClicked(opt.name)">{{ opt.friendly_name }}</a>
+                        </div>
+                    </div>
                     <div class="table" v-if="currentOptionsType == 'property-dict'">
                         <table>
                             <tr v-for="opt in currentOptionsAvailable">
@@ -90,6 +98,7 @@
             </div>
         </div>
         <div id="submit">
+            <p>Version {{ version }}</p>
             <button id="submit-button" @click="onGenerateButtonClicked">Generate Mission Script</button>
             <button id="reset-button" @click="onResetAllButtonClicked">Reset all config</button>
             <button id="reset-sys-button" @click="onResetSystemsButtonClicked">Reset system and script selection</button>
