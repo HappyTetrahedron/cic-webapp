@@ -11,7 +11,7 @@ export async function fetchShipConfigOptions() {
 }
 
 export async function fetchAvailableSystems() {
-    let list = await fetchJson(Config.API_URI + "systems");
+    let list = await fetchJson(Config.API_URI + "maps");
     return list;
 }
 

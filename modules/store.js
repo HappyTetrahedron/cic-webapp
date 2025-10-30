@@ -222,8 +222,8 @@ export const store = reactive({
 
     generateDataDict() {
         const dict = {
-            "systems": this.systemsSelected,
-            "scripts": this.scriptsSelected,
+            "maps": this.systemsSelected,
+            "extensions": this.scriptsSelected,
         }
 
         for (const [opt, optv] of Object.entries(this.shipOptionsChosen)) {
