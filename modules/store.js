@@ -156,7 +156,11 @@ export const store = reactive({
     },
 
     getStelCartLinkFor(systemName) {
-        return `${Config.STEL_CART_URI}?sector=${systemName}`
+        return `${Config.STEL_CART_URI}?sector=${this.normalizedName(systemName)}`
+    },
+
+    normalizedName(name) {
+        return name.replace('\'','');
     },
 
     setAvailableScripts(scripts) {
