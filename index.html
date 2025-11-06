@@ -48,7 +48,7 @@
                 <a v-for="(params, option) in shipOptionsAvailable" @click="selectTab(option)" :class="{ selected: option == currentTab }">
                     <div>
                         <span>
-                            {{ params.friendly_name }}
+                            {{ params.friendly_name ? params.friendly_name : params.name }}
                         </span>
                     </div>
                 </a>
@@ -71,21 +71,23 @@
                         <div v-for="opt in optionsAvailable(option)" :class="{ selected: optionsSelected(option) == opt.name }">
                             <span v-if="optionsSelected(option) == opt.name">✅</span>
                             <span v-else>🙅</span>
-                            <a @click="onSelectOptClicked(option, opt.name)">{{ opt.friendly_name }}</a>
+                            <a @click="onSelectOptClicked(option, opt.name)">{{ opt.friendly_name ? opt.friendly_name : opt.name }}</a>
+                            <p class="comment" v-if="opt.comment">{{ opt.comment }}</p>
                         </div>
                     </div>
                     <div class="col" v-if="optionsType(option) == 'multi-select'" >
                         <div v-for="opt in optionsAvailable(option)" :class="{ selected: optionsSelected(option).includes(opt.name) }">
                             <span v-if="optionsSelected(option).includes(opt.name)">✅</span>
                             <span v-else>🙅</span>
-                            <a @click="onMultiSelectOptClicked(option, opt.name)">{{ opt.friendly_name }}</a>
+                            <a @click="onMultiSelectOptClicked(option, opt.name)">{{ opt.friendly_name ? opt.friendly_name : opt.name }}</a>
+                            <p class="comment" v-if="opt.comment">{{ opt.comment }}</p>
                         </div>
                     </div>
                     <div class="table" v-if="optionsType(option) == 'property-dict'">
                         <table>
                             <tr v-for="opt in optionsAvailable(option)">
                                 <td>
-                                    <label>{{ opt.friendly_name }}</label>
+                                    <label>{{ opt.friendly_name ? opt.friendly_name : opt.name }}</label>
                                 </td>
                                 <td>
                                     <input type="text" @change="onPropertyChanged()"
